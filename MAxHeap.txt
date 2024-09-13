@@ -1,0 +1,64 @@
+#include<stdio.h>
+#define Max 100
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heapify(int arr[], int n, int i){
+    int parent = (i - 1) / 2;
+    if(parent >= 0){
+        if(arr[i] > arr[parent]){
+            swap(&arr[i], &arr[parent]);
+            heapify(arr, n, parent);
+        }
+    }
+}
+
+void addNode(int arr[], int* n, int key){
+    *n = *n + 1;
+    arr[*n - 1] = key;
+    heapify(arr, *n, *n - 1);
+}
+
+void printArray(int arr[], int n){
+    for(int i = 0; i < n; ++i)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
+
+int findMax(int arr[], int n) {
+    if (n > 0)
+        return arr[0];
+    else
+        return -1;
+}
+
+int main(){
+    int arr[Max];
+    int n;
+    int key;
+
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter the elements: ");
+    for(int i = 0; i < n; i++){
+        scanf("%d", &arr[i]);
+    }
+    
+    printf("Enter the new key to add to the heap: ");
+    scanf("%d", &key);
+
+    addNode(arr, &n, key);
+    
+    printf("Heap after adding new element: ");
+    printArray(arr, n);
+    
+    int maxElement = findMax(arr, n);
+    printf("The maximum element in the heap is: %d\n", maxElement);
+
+    return 0;
+}
